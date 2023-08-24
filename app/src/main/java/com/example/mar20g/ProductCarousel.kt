@@ -25,7 +25,7 @@ import com.example.mar20g.ui.theme.MAR20GTheme
 
 @Composable
 fun ProductCarousel(
-    pizzaModel: PizzaDataModel, pageOffset: Float
+    cdModel: CdDataModel
 ) {
     Column(
         modifier = Modifier.wrapContentHeight(),
@@ -33,26 +33,30 @@ fun ProductCarousel(
         verticalArrangement = Arrangement.Center
     ) {
         Image(
-            painter = painterResource(id = pizzaModel.pizzaImage),
-            contentDescription = "pizza",
+            painter = painterResource(id = cdModel.cdImage),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(240.dp)
-                .shadow(8.dp, shape = CircleShape, spotColor = Color(0xFFE91E63)),
-            contentScale = ContentScale.Crop
+                .size(450.dp)
+                .shadow(
+                    elevation = 2.dp,
+                    shape = CircleShape,
+                    spotColor = Color(0xFF757575)
+                )
         )
-        Spacer(modifier = Modifier.height(52.dp))
+        Spacer(modifier = Modifier.height(35.dp))
         Column(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = pizzaModel.pizzaName,
+                text = cdModel.cdName,
                 fontSize = 24.sp,
                 fontWeight = FontWeight.Bold,
                 color = Color.DarkGray
             )
             Spacer(modifier = Modifier.height(8.dp))
             Text(
-                text = pizzaModel.pizzaPrice,
+                text = cdModel.cdPrice,
                 style = MaterialTheme.typography.titleMedium,
                 fontWeight = FontWeight.SemiBold,
                 color = Color(0xFFE91E63).copy(alpha = 0.7f),
@@ -67,6 +71,7 @@ fun ProductCarousel(
 @Composable
 fun Preview_ProductCarouselItem() {
     MAR20GTheme {
-        ProductCarousel(PizzaDataModel.list.first(), 1f)
+        ProductCarousel(CdDataModel.list.first(), //1f
+        )
     }
 }

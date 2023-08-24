@@ -39,7 +39,7 @@ import kotlinx.coroutines.delay
 
 @Composable
 fun AddToCartComponent(
-    pizzaModel: PizzaDataModel,
+    cdModel: CdDataModel,
     transitionAlpha: Float,
     transitionSize: Float,
     onClick: () -> Unit,
@@ -47,7 +47,7 @@ fun AddToCartComponent(
 
     var alpha by remember { mutableStateOf(false) }
 
-    LaunchedEffect(key1 = pizzaModel) {
+    LaunchedEffect(key1 = cdModel) {
         delay(200)
         alpha = true
     }
@@ -56,6 +56,7 @@ fun AddToCartComponent(
         verticalArrangement = Arrangement.Center,
         horizontalAlignment = Alignment.CenterHorizontally,
         modifier = Modifier
+            .padding(start = 20.dp, end = 20.dp)
             .fillMaxWidth()
             .fillMaxHeight(transitionSize)
             .alpha(transitionAlpha)
@@ -78,7 +79,7 @@ fun AddToCartComponent(
                 modifier = Modifier.padding(top = 30.dp)
             )
             Text(
-                text = pizzaModel.pizzaPrice,
+                text = cdModel.cdPrice,
                 fontSize = 20.sp,
                 color = Color(0xFFE91E63),
                 modifier = Modifier.padding(top = 16.dp)
@@ -93,7 +94,7 @@ fun AddToCartComponent(
                 )
             }
             Image(
-                painter = painterResource(id = pizzaModel.pizzaImage),
+                painter = painterResource(id = cdModel.cdImage),
                 contentDescription ="food image",
                 modifier = Modifier
                     .fillMaxWidth()
@@ -103,7 +104,7 @@ fun AddToCartComponent(
         }
         Text(
             text = "back to detail",
-            color = Color.Gray.copy(alpha = .8f),
+            color = Color.DarkGray,
             fontWeight = FontWeight.SemiBold,
             textDecoration = TextDecoration.Underline,
             modifier = Modifier.clickable { onClick() }
@@ -116,7 +117,7 @@ fun AddToCartComponent(
 fun Preview() {
     MAR20GTheme {
         AddToCartComponent(
-            PizzaDataModel.list.first(),
+            CdDataModel.list.first(),
             1f,1f) {  /* clickable parameter */ }
     }
 }

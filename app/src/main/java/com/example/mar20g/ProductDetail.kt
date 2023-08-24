@@ -49,7 +49,7 @@ import kotlin.math.absoluteValue
 @OptIn(ExperimentalPagerApi::class)
 @Composable
 fun ProductDetail(
-    list: List<PizzaDataModel> = PizzaDataModel.list
+    list: List<CdDataModel> = CdDataModel.list
 ) {
 
     val pagerState = rememberPagerState()
@@ -58,29 +58,23 @@ fun ProductDetail(
 
     var currentState by remember { mutableStateOf(ButtonState.Details) }
 
-
     val transition = updateTransition(currentState, label = "button state")
-
 
     val transitionAlpha by transition.animateFloat(
         transitionSpec = { tween(durationMillis = 500) },
         label = ""
     ) { if (it == ButtonState.AddToCart) 1f else 0f }
 
-
-
     val transitionSize by transition.animateFloat(
         transitionSpec = { tween(durationMillis = 500) },
         label = ""
     ) { if (it == ButtonState.AddToCart) { 1f } else { 0f } }
 
-
-    // background top dish effect
+    // background top cd effect
     val backkgroundOffsetX: Float by animateFloatAsState(
         targetValue = Util.lerp(
             start = 400f, stop = 0f, fraction = 1f - pagerState.currentPageOffset.coerceIn(0f, 1f)
         ),
-
         animationSpec = tween(durationMillis = 500, easing = Util.EaseOutQuart), label = ""
     )
 
@@ -94,31 +88,28 @@ fun ProductDetail(
         modifier = Modifier.fillMaxSize()
     ) {
         Image(
-            painter = painterResource(id = list[backgroundImage].pizzaImage),
-            contentDescription = "pizza",
+            painter = painterResource(id = list[backgroundImage].cdImage),
+            contentDescription = null,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
-                .size(400.dp)
+                .size(450.dp)
                 .offset(y = (-100).dp)
-                .graphicsLayer {
-                    translationX = backkgroundOffsetX
-                }
-                .blur(4.dp),
-            contentScale = ContentScale.Crop
+                .graphicsLayer { translationX = backkgroundOffsetX }
+                .blur(4.dp)
         )
-
         Image(
-            painter = painterResource(id = R.drawable.veggie_101),
-            contentDescription = "under background",
+            painter = painterResource(id = R.drawable.cd_101),
+            contentDescription = null,
             contentScale = ContentScale.Crop,
             modifier = Modifier
                 .fillMaxWidth()
                 .align(Alignment.BottomCenter)
-                .offset(y = 100.dp)
+                .offset(y = 50.dp)
         )
         Box(
             modifier = Modifier
                 .fillMaxSize()
-                .background(color = Color.White.copy(alpha = .7f))
+                .background(color = Color.White.copy(alpha = 0.7f))
         )
         Row(
             verticalAlignment = Alignment.CenterVertically
@@ -139,7 +130,6 @@ fun ProductDetail(
                     .size(32.dp)
             )
         }
-
         when (currentState) {
             ButtonState.Details -> {
                 Column(
@@ -150,23 +140,18 @@ fun ProductDetail(
                     HorizontalPager(
                         count = list.size,
                         state = pagerState,
-
-                        ) {page ->
-                        val pageOffset = calculateCurrentOffsetForPage(page).absoluteValue
-                        ProductCarousel(list[page], pageOffset)
+                    ) {page ->
+                        ProductCarousel(list[page])
                     }
                     Button(
                         onClick = { currentState = ButtonState.AddToCart},
-                        modifier = Modifier
-                            .padding(horizontal = 24.dp)
-                            .fillMaxWidth(),
-                        //  .height(transitionSizeButton)
-                        //  .padding(horizontal = 16.dp)
-                        shape = RoundedCornerShape(15),
+                        shape = RoundedCornerShape(14),
                         colors = ButtonDefaults.buttonColors(
                             containerColor = Color.Black,
-                            contentColor = Color.White
-                        )
+                            contentColor = Color.White),
+                        modifier = Modifier
+                            .padding(horizontal = 24.dp)
+                            .fillMaxWidth()
                     ) {
                         Text(
                             text = "ADD TO CART",
@@ -175,10 +160,9 @@ fun ProductDetail(
                     }
                     Spacer(modifier = Modifier.height(16.dp))
                     Text(
-                        text = "swipe to see more",
-                        color = Color.Gray.copy(alpha = .8f),
-                        fontWeight = FontWeight.SemiBold,
-                        modifier = Modifier.padding(horizontal = 16.dp)
+                        text = "see more >",
+                        color = Color.DarkGray,
+                        fontWeight = FontWeight.SemiBold
                     )
                 }
             }
